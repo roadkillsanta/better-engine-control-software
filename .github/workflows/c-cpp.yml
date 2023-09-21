@@ -22,8 +22,7 @@ jobs:
           sudo apt-get update -y
           sudo apt install --yes file # for some mfing reason this ubuntu container doesn't have file command, install it
           sudo apt-get install -y cmake
-          echo "here"
-          cmake -B build-pi -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=CMake/arm-pi-gnueabihf.toolchain.cmake
+          cmake -B build-pi -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=CMake/arm-pi-gnueabihf.toolchain.cmake -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
         working-directory: ${{ github.workspace }}
       
       - name: Build for Raspberry Pi
