@@ -16,11 +16,13 @@ jobs:
         uses: actions/checkout@v2
         with: 
           submodules: recursive
+        
       - name: before script
         run: |
           sudo apt-get update -y
           sudo apt install --yes file # for some mfing reason this ubuntu container doesn't have file command, install it
           sudo apt-get install -y cmake
+          sudo apt-get install build-essential
           cmake -B build-pi -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=CMake/arm-pi-gnueabihf.toolchain.cmake
         working-directory: ${{ github.workspace }}
       
