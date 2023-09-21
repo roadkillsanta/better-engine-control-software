@@ -39,7 +39,7 @@ jobs:
       - name: Final log
         run: |
           echo "Build successful!"
-        echo "Not testing, not possible with Docker"
+          echo "Not testing, not possible with Docker"
         working-directory: ${{ github.workspace }}
       
       - name: Upload Pi artifacts
