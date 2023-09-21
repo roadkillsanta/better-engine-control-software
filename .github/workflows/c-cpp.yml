@@ -7,7 +7,7 @@ on:
 
 jobs:    
   pi-cross-compile:
-    runs-on: ubuntu-latest
+    runs-on: wpilib/raspbian-cross-ubuntu:bullseye-22.04
     strategy:
       matrix:
         os: [ubuntu-latest]
