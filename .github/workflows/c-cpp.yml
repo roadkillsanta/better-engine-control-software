@@ -5,35 +5,49 @@ on:
     branches:
       - main  # Change this to the branch you want to trigger the workflow on
 
-jobs:
+jobs:    
   pi-cross-compile:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with: 
-          submodules: recursive
-      
-      - name: Set up cross-compiler
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y cmake
-          cmake -B build-pi -DIS_CROSS=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=CMake/arm-pi-gnueabihf.toolchain.cmake
-        working-directory: ${{ github.workspace }}
-      
-      - name: Build for Raspberry Pi
-        run: |
-          cmake --build build-pi --target ecs_pi -- -j 8
-        working-directory: ${{ github.workspace }}
-      
-      - name: Upload Pi artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: pi-artifacts
-          path: build-pi/ecs_pi
+	runs-on: ubuntu-latest
+	strategy:
+	  matrix:
+		os: [ubuntu-latest]
+	steps:
+	  - name: Checkout code
+		uses: actions/checkout@v2
+		with: 
+		  submodules: recursive
+	  
+	  - name: before_script
+		run: |
+			sudo apt-get update -y
+			sudo apt install --yes file # for some mfing reason this ubuntu container doesn't have file command, install it
+			sudo apt-get install -y cmake
+			cmake -B build-pi -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=CMake/arm-pi-gnueabihf.toolchain.cmake
+		working-directory: ${{ github.workspace }}
+	  
+	  - name: Build for Raspberry Pi
+		run: |
+			cmake --build build-pi --target ecs_pi -- -j 8
+		working-directory: ${{ github.workspace }}
+
+	  - name: Check executable
+		run: |
+			echo "Checking to make sure executable is actually ARM"
+			file build-pi/ecs_pi | tee log.txt
+			grep "ARM" log.txt # check to make sure "ARM" appears in output of file command
+		working-directory: ${{ github.workspace }}
+	  
+	  - name: Final log
+		run: |
+			echo "Build successful!"
+		echo "Not testing, not possible with Docker"
+		working-directory: ${{ github.workspace }}
+	  
+	  - name: Upload Pi artifacts
+		uses: actions/upload-artifact@v2
+		with:
+		  name: pi-artifacts
+		  path: build-pi/ecs_pi
 
   sim-windows:
     runs-on: windows-latest
