@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with: 
+          submodules: recursive
       
       - name: Set up cross-compiler
         run: |
@@ -38,6 +40,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with: 
+          submodules: recursive
 
       - name: Install CMake on Windows
         run: |
@@ -61,6 +65,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with: 
+          submodules: recursive
 
       - name: Install dependencies on Linux
         run: |
@@ -85,6 +91,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with: 
+          submodules: recursive
 
       - name: Install dependencies for unit tests
         run: |
