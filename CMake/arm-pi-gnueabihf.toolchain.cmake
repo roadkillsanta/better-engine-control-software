@@ -2,6 +2,7 @@
 
 set(GCC_COMPILER_VERSION "" CACHE STRING "GCC Compiler version")
 set(GNU_MACHINE "armv6-bullseye-linux-gnueabi" CACHE STRING "GNU compiler triple")
+set(CMAKE_C_COMPILER_WORKS 1)
 
 if(COMMAND toolchain_save_config)
   return() # prevent recursive call
