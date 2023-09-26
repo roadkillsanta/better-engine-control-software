@@ -65,7 +65,7 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Self identify
+      - name: self identify
         run: |
           /usr/bin/xcodebuild -version
 
